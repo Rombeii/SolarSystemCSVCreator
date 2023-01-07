@@ -35,6 +35,12 @@ def daterange(from_date, until_date):
         yield from_date + timedelta(n)
 
 
+def to_datetime(time):
+    utc_time = time.utc
+    return "{0}-{1}-{2}-{3}-{4}-{5}".format(str(utc_time.year), str(utc_time.month), str(utc_time.day),
+                                            str(utc_time.hour), str(utc_time.minute), str(int(utc_time.second)))
+
+
 if __name__ == '__main__':
     start_date = date(2020, 1, 1)
     end_date = date(2030, 12, 31)
@@ -56,4 +62,4 @@ if __name__ == '__main__':
             observation_dates = ts.utc(int(single_date.year), int(single_date.month), int(single_date.day),
                                        observations_at)
             for t in observation_dates:
-                writer.writerow(get_planets_row(t))
+                writer.writerow([to_datetime(t)] + get_planets_row(t))
